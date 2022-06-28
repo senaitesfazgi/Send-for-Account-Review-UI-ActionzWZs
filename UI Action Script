@@ -1,0 +1,17 @@
+sentAccountReview();
+
+function sentAccountReview(){
+	try{
+		var emailAdd = current.applicant_name.email.toString();
+		if(emailAdd != "" && emailAdd != 'null'){
+			current.recertification_status = 'Account Review Request Sent';
+			gs.eventQueue('x_gooa_agri.account.review.sent',current,current.applicant_name.toString());
+		}else {
+			current.recertification_status = 'Account Review Selected';
+		}
+		current.update();
+		action.setRedirectURL(current);
+	}catch(e){
+		gs.info('emailAdd = '+e+" -- "+e.lineNumber);
+	}
+}
