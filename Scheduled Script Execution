@@ -1,0 +1,12 @@
+sentAccountReview();
+
+function sentAccountReview(){
+	var pidAccObj = new GlideRecord('x_gooa_agri_pid_account');
+	pidAccObj.addEncodedQuery('recertification_status=Account Review Request Sent^sys_updated_onRELATIVELT@dayofweek@ago@14');
+	pidAccObj.query();
+	while(pidAccObj.next()){
+		gs.eventQueue('x_gooa_agri.send.account.review.reminder',pidAccObj,pidAccObj.getValue('applicant_name'));
+		pidAccObj.recertification_status = "Account Review No Response";
+		pidAccObj.update();
+	}
+}
